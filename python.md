@@ -3,40 +3,6 @@
 <div align='justify'>
 
 An extra day is added to the calendar almost every four years as February 29, and the day is called a leap day. It corrects the calendar for the fact that our planet takes approximately 365.25 days to orbit the sun. A leap year contains a leap day.
-
-In the Gregorian calendar, three conditions are used to identify leap years:
-
-The year can be evenly divided by 4, is a leap year, unless:
-The year can be evenly divided by 100, it is NOT a leap year, unless:
-The year is also evenly divisible by 400. Then it is a leap year.
-This means that in the Gregorian calendar, the years 2000 and 2400 are leap years, while 1800, 1900, 2100, 2200, 2300 and 2500 are NOT leap years. Source
-
-Task
-
-Given a year, determine whether it is a leap year. If it is a leap year, return the Boolean True, otherwise return False.
-
-Note that the code stub provided reads from STDIN and passes arguments to the is_leap function. It is only necessary to complete the is_leap function.
-
-Input Format
-
-Read , the year to test.
-
-Constraints
-
-
-Output Format
-
-The function must return a Boolean value (True/False). Output is handled by the provided code stub.
-
-Sample Input 0
-
-1990
-Sample Output 0
-
-False
-Explanation 0
-
-1990 is not a multiple of 4 hence it's not a leap year.
 	
 </div>
 
@@ -58,38 +24,9 @@ If  is odd, print Weird
 If  is even and in the inclusive range of  to , print Not Weird
 If  is even and in the inclusive range of  to , print Weird
 If  is even and greater than , print Not Weird
-Input Format
 
-A single line containing a positive integer, .
-
-Constraints
-
-Output Format
-
-Print Weird if the number is weird. Otherwise, print Not Weird.
-
-Sample Input 0
-
-3
-Sample Output 0
-
-Weird
-Explanation 0
-
-
- is odd and odd numbers are weird, so print Weird.
-
-Sample Input 1
-
-24
-Sample Output 1
-
-Not Weird
-Explanation 1
-
-
- and  is even, so it is not weird.
 </div>
+
 ```python
 #!/bin/python3
 
@@ -106,23 +43,30 @@ elif (n%2)==0 and n > 20 or (n%2)==0 and n in range(2,5):
 else:
     print("Enter a valid number")        
 
-
 ```
-Python CCC 
+<h2> Python CCC traning
 
-Hello world:
+Hello world:</h2>
+```python
 
 if __name__ == '__main__':
     print("Hello, World!")
+    
+```
+<h2>Print function:</h2>
 
-Print function:
+```python
 
 if __name__ == '__main__':
     n = int(input())
     for i in range(1,n+1):
         print(i,end='')
+	
+```
 
-Arithmetic Operators:
+<h2>Arithmetic Operators:</h2>
+
+```python
 
 if __name__ == '__main__':
     a = int(input())
@@ -130,8 +74,12 @@ if __name__ == '__main__':
     print(a+b)
     print(a-b)
     print(a*b)
+    
+```
 
-Division:
+<h2>Division:</h2>
+
+```python
 
 from __future__ import division
 
@@ -140,9 +88,12 @@ if __name__ == '__main__':
     b = int(raw_input())
     print(a//b);
     print(a/b);
+    
+```
 
-If-Else:
+<h2>If-Else:</h2>
 
+```python
 #!/bin/python3
 
 import math
@@ -165,17 +116,20 @@ if __name__ == '__main__':
             print("Weird")
         else:
             print("Not Weird")
+```
 
-Come in all sizes:
+<h2>Come in all sizes:</h2>
 
+```python
 a=int(input())
 b=int(input())
 c=int(input())
 d=int(input())
 print(pow(a,b)+pow(c,d))
+```
+<h2>Grading Students:</h2>
 
-Grading Students:
-
+```python
 #!/bin/python3
 
 import math
@@ -230,19 +184,11 @@ if __name__ == '__main__':
 
     fptr.close()
 
+```
 
+<h2>Apple&Orange:</h2>
 
-
-
-
-
-
-
-
-
-
-Apple&Orange:
-
+```python
 
 import math
 import os
@@ -275,19 +221,10 @@ if __name__ == '__main__':
     oranges = list(map(int, input().rstrip().split()))
     countApplesAndOranges(s, t, a, b, apples, oranges)
 
-
-
-
-
-
-
-
-
-
-
-
+```
 TIme in words:
 
+```python
 #include <cmath>
 #include <cstdio>
 #include <vector>
@@ -321,16 +258,21 @@ int main() {
     
     return 0;
 }
+```
 
 Save the prisoner! :
+
+```python
 t = int(input())
 for _ in range(t):
     parts = list(map(int, input().split(' ')))
     # print('parts', parts)
     print((parts[1] + parts[2] - 2) % parts[0] + 1)
+```
 
 Electronics Shop:
 
+```python
 #!/bin/python3
 
 import sys
@@ -349,9 +291,10 @@ for x in keyboards:
             total = z
          
 print(total)
-            
+```
 Taum and B’Day:
 
+```python
 tcs = int(input())
 for i in range(tcs):
     b, w = map(int, input().split(' '))
@@ -362,8 +305,10 @@ for i in range(tcs):
         print(w*y+b*(y+z))
     else:
         print(b*x+w*y)
+```
+<h2>A E01 - Square Area</h2>
 
-A E01 - Square Area
+```python
 #!/bin/python3
 
 import math
@@ -377,8 +322,10 @@ import sys
 if __name__ == '__main__':
     side = int(input())
     print(side*side)
+```
+<h2>A E02 - Rectangle Area </h2>
 
-A E02 - Rectangle Area 
+```python
 #!/bin/python3
 
 import sys
@@ -387,8 +334,10 @@ if __name__ == "__main__":
     side1 = int(input().strip())
     side2 = int(input().strip())
     print(side1*side2)
-    
-A E03 Circle Area 
+```
+<h2>A E03 Circle Area </h2>
+
+```python
 #!/bin/python3
 
 import sys
@@ -396,9 +345,10 @@ import sys
 if __name__ == "__main__":
     radius = int(input().strip())
     print(3.14*radius*radius)
- 
-A E04 Rhombus Area 
+ ```
+<h2>A E04 Rhombus Area </h2>
 
+```python
 #!/bin/python3
 
 import sys
@@ -407,9 +357,10 @@ if __name__ == "__main__":
     diag1 = int(input().strip())
     diag2 = int(input().strip())
     print((diag1*diag2)/2)
+```
+<h2>A E05 Digit Count</h2>
 
-A E05 Digit Count
- 
+ ```python
 #!/bin/python3
 
 import sys
@@ -417,9 +368,10 @@ import sys
 if __name__ == "__main__":
     num = int(input().strip())
     print(len(str(num)))
+```
+<h2>A E06 Cylinder Volume</h2> 
 
-A E06 Cylinder Volume 
-
+```python
 #!/bin/python3
 
 import math
@@ -436,13 +388,10 @@ if __name__ == '__main__':
     height = int(input())
     print(3.14*radius*radius*height)
 
+```
+<h2>Strong password:</h2>
 
-
-
-
-
-Strong password:
-
+```python
 #!/bin/python3
 
 import sys
@@ -469,9 +418,10 @@ if __name__ == "__main__":
     password = input().strip()
     answer = minimumNumber(n, password)
     print(answer)
+```
+<h2>Shakespeare’s play:</h2>
 
-Shakespeare’s play:
-
+```python
 import string
 
 alphabet = set(string.ascii_lowercase)
@@ -482,9 +432,10 @@ def ispangram(input_string):
 inp = input()
 print("France" if ispangram(inp) else "Italy")
 
+```
+<h2>Super Reduced string:</h2>
 
-Super Reduced string:
-
+```python
 s = input()
 
 changed = True
@@ -500,9 +451,11 @@ if s == "":
     print('Empty String')
 else:
     print(s)
+```
 
-Diagonal DIfference:
+<h2>Diagonal DIfference:</h2>
 
+```python
 #!/bin/python3
 
 import math
@@ -539,9 +492,10 @@ if __name__ == '__main__':
     fptr.write(str(result) + '\n')
 
     fptr.close()
+```
+<h2>Making ANAgrams:</h2>
 
-Making ANAgrams:
-
+```python
 import math
 
 def number_needed(a, b):
@@ -563,8 +517,9 @@ a = input().strip()
 b = input().strip()
 
 print(number_needed(a, b))
-
+```
 <h2>Sherlock and the valid string:</h2>
+
 ```python
 #!/bin/python3
 
