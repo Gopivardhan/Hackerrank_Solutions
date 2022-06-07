@@ -565,6 +565,49 @@ if __name__ == '__main__':
     fptr.close()
 ```
 
+<h2>Atm</h2>
+
+```python
+
+password = input()
+initBal = int(input())
+n = int(input())
+auth = 0 
+for i in range(n):
+    op = input().split(" ")
+    if op[0] == 'login':
+        if op[1] == password:
+            if auth == 0:
+                auth = 1
+                print("Success=True authorized")
+            else:
+                print("Success=False authorized")
+        else:
+             if auth == 1:
+                print("Success=False authorized")
+             else:
+                print("Success=False unauthorized")
+    elif op[0] == 'withdraw' and auth == 1:
+                calc = initBal - int(op[1]) 
+                if calc>=0:
+                    initBal = calc
+                    print("Success=True authorized")
+                else:
+                    print("Success=False authorized")
+                    
+    elif op[0] == 'deposit' and auth == 1:
+         initBal += int(op[1])
+         print("Success=True authorized")
+    elif op[0] == 'balance' and auth == 1:
+         print("Success=True authorized",initBal) 
+    elif op[0] == 'logout' and auth == 1:
+        auth = 0
+        print("Success=True unauthorized")
+    else:
+        print("Success=False unauthorized")
+
+```
+
 
 
 
