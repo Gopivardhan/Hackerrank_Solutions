@@ -665,6 +665,548 @@ print(cuts)
 
 
 
+<h2>Knapsack</h2>
+<h3>Given an array of integers and a target sum, determine the sum nearest to but not exceeding the target that can be created. To create the sum, use any element of your array zero or more times.
+
+For example, if  and your target sum is , you might select  or . In this case, you can arrive at exactly the target.
+
+Function Description
+
+Complete the unboundedKnapsack function in the editor below. It must return an integer that represents the sum nearest to without exceeding the target value.
+
+unboundedKnapsack has the following parameter(s):
+
+k: an integer
+arr: an array of integers
+Input Format
+
+The first line contains an integer , the number of test cases.
+
+Each of the next  pairs of lines are as follows:
+- The first line contains two integers  and , the length of  and the target sum.
+- The second line contains  space separated integers .
+
+Constraints
+
+
+
+Output Format
+
+Print the maximum sum for each test case which is as near as possible, but not exceeding, to the target sum on a separate line.
+
+Sample Input
+
+2
+3 12
+1 6 9
+5 9
+3 4 4 4 8
+Sample Output
+
+12
+9
+Explanation
+
+In the first test case, one can pick {6, 6}. In the second, we can pick {3,3,3}.</h3>
+
+```cpp
+
+#include <bits/stdc++.h>
+using namespace std;
+vector <int> c; int dp[2005]; 
+int main()
+{
+    int tc; cin >> tc;
+    for (int g=0;g<tc; g++){c.clear(); memset(dp,0,sizeof(dp)); 
+    int a,b; cin >> a >> b;
+    for (int g=0;g<a; g++)
+    {
+    int d; cin >> d; c.push_back(d); 
+    }sort(c.begin(), c.end());
+    for (int g=1;g<=b; g++)
+    {
+        for (int y=0;y<c.size(); y++)
+        {
+            if (c[y]>g) continue;
+            dp[g]=max(dp[g], c[y]+dp[g-c[y]]); 
+        }
+    }
+    cout << dp[b] << '\n';} return 0; 
+}
+
+```
+
+
+<h2>Travel in HackerLand</h2>
+<h3>HackerLand is a country with  beautiful cities and  undirected roads. Like every other beautiful country, HackerLand has traffic jams.
+
+Each road has a crowd value. The crowd value of a path is defined as the maximum crowd value for all roads in the path. For example, if the crowd values for all roads are , then the crowd value for the path will be .
+
+Each city  has a type value, , denoting the type of buildings in the city.
+
+David just started his vacation in HackerLand. He wants to travel from city  to city . He also wants to see at least  different types of buildings along the path from  to . When choosing a path from city  to city  that has at least  different types of buildings along the path, David always selects the one with the minimum crowd value.
+
+You will be given  queries. Each query takes the form of  space-separated integers, , , and , denoting the respective values for starting city, destination city, and minimum number of unique buildings that David wants to see along the way. For each query, you must print the minimum crowd value for a path between  and  that has at least  different buildings along the route. If there is no such path, print -1.
+
+Note: A path may contain cycles (i.e., the same roads or cities may be traveled more than once).
+
+Input Format
+
+The first line contains  space-separated integers denoting the respective values for  (the number of cities),  (the number of roads), and  (the number of queries).
+
+The second line contains  space-separated integers describing the respective building type for each city in array  (where the -th value is  and ).
+
+Each of the  subsequent lines defines a road in the form of  space-separated integers, , , and , defining an undirected road with crowd value  that connects cities  and .
+
+Each of the  subsequent lines defines a query in the form of  space-separated integers, , , and  (where ), respectively.
+
+Constraints
+
+Each road connect  distinct cities, meaning no road starts and ends in the same city.
+Output Format
+
+For each query, print its answer on a new line.
+
+Sample Input
+
+7 6 1
+1 1 4 5 1 3 2
+1 2 3
+2 6 2
+2 3 4
+3 4 3
+2 4 9
+5 7 9
+1 2 4
+Sample Output
+
+4
+Explanation
+
+The diagram below depicts the country given as Sample Input. Different values of  are shown in different colors.
+
+davaro.png
+
+The path for the last query (1 2 4) will be . David sees his first type of building in cities  and , his second type of building in city , his third type of building in city , and his fourth type of building in city . The crowd values for each road traveled on this path are ; the maximum of these values is . Thus, we print  on a new line.</h3>
+
+```cpp
+
+#include <set>
+#include <cmath>
+#include <queue>
+#include <cstdio>
+#include <vector>
+#include <cstring>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+#define sz2 200001
+#define ii pair<int, int>
+#define pb push_back
+#define mp make_pair
+#define ff first
+#define ss second
+
+int qq, N, M, Q, K, C, max_edge = 1000000001;
+
+vector<ii > G[100001];
+vector<pair<int, ii > > E;
+priority_queue<pair<int, ii > > pq;
+pair <int, ii > q[2000001];
+int lvl[sz2],T[100001],a[1000001],L[sz2],
+    R[sz2],p[sz2],parent[sz2][20],col[100001],
+    ll[sz2],rr[sz2],weight[sz2],dis[sz2],
+    ans[2000001],st[5000005],used[10000001];
+    
+bool vis[100001];
+
+int mycmp(pair <int, ii > a, pair <int, ii > b)
+{
+    if (a.ss.ff != b.ss.ff) return a.ss.ff < b.ss.ff;
+    return a.ff < b.ff;
+}
+
+// DisjointSet
+int find_parent(int i) {
+    if (p[i] == i) return i;
+    return p[i] = find_parent(p[i]);
+}
+
+void set_lvl(int v, int l) {
+    lvl[v] = l;
+    if (v > N) {
+        set_lvl(ll[v], l + 1);
+        set_lvl(rr[v], l + 1);
+    }
+}
+
+// LeastCommonAncestor
+
+void build_lca() {
+    for (int i = 1; i < 20; i++)
+        for (int v = 1; v <= K; v++) {
+            parent[v][i] = parent[parent[v][i - 1]][i - 1];
+        }
+}
+
+int LCA(int u, int v) {
+    if (lvl[u] > lvl[v]) swap(u, v);
+    for (int i = 20; i > 0; i--)
+        if (lvl[parent[v][i-1]] >= lvl[u]) v = parent[v][i-1];
+    
+    if (u == v) return u;
+    
+    for (int i = 20; i > 0; i--)
+        if (parent[u][i-1] != parent[v][i-1]) {
+            u = parent[u][i-1]; v = parent[v][i-1];
+        }
+        
+    return parent[u][0];
+}
+
+class STO {
+    public:
+        
+        int n, m;
+        
+        STO() { n = m = 0; }
+        void add_color(int x) { a[++n] = x; }        
+        void add_query(pair<int, ii > query) { q[++m] = query; }
+        
+        void solve() {
+            sort(q + 1, q + m + 1, mycmp);
+            for (int i=1,j=1; i<=m; i++)
+            {
+                while(j <= q[i].ss.ff)
+                {
+                    if (!used[a[j]]) {
+                        Update(1, 1, n, j, 1);
+                        used[a[j]] = j;
+                    } else {
+                        Update(1, 1, n, used[a[j]], 0);
+                        Update(1, 1, n, j, 1);
+                        used[a[j]] = j;
+                    }
+                    j++;
+                }
+                ans[q[i].ss.ss] = Find(1, 1, n, q[i].ff, q[i].ss.ff);
+            }
+        }        
+        int get_ans(int i) {
+            return ans[i];
+        }
+        int Find(int ind, int A, int B, int l, int r)
+        {
+            if (l > B || r < A) return 0;
+            if (A == l && B == r) return st[ind];
+            int mid = (A + B) / 2;
+            return Find(ind * 2, A, mid, l, min(mid, r)) + Find(ind * 2 + 1, mid + 1, B, max(mid + 1, l), r);
+        }        
+        void Update(int ind, int l, int r, int x, int d)
+        {
+            if (l == r) st[ind] = d;
+            else {            
+                int mid = (l + r) / 2;
+                if (x <= mid) Update(ind * 2, l, mid, x, d);
+                else Update(ind * 2 + 1, mid + 1, r, x, d);   
+                st[ind] = st[ind * 2] + st[ind * 2 + 1];
+            }
+        }        
+};
+
+
+STO seg_tree;
+
+
+void dfs(int v) {
+    if (v > N) {
+        dfs(ll[v]);
+        dfs(rr[v]);
+        L[v] = L[ll[v]];
+        R[v] = R[rr[v]];
+        seg_tree.add_query(mp(L[v], mp(R[v], qq))); qq++;
+    } else {
+        C++;
+        seg_tree.add_color(col[v]);
+        L[v] = C;
+        R[v] = C;
+    }
+}
+
+void dfs1(int v) {
+    if (v == 0) return;
+    if (v > N) {
+        dfs1(ll[v]);
+        dfs1(rr[v]);
+        weight[v] = seg_tree.get_ans(qq); qq++;
+    } else weight[v] = 1;
+    
+}
+
+void color_solve() {
+    vector<int> v1, v2;
+    for (int i = 1; i <= N; i++)
+        v1.pb(T[i]);
+    sort(v1.begin(), v1.end());
+    v2.pb(v1[0]);
+    
+    for (int i = 1, sz = 0; i<v1.size(); i++)
+        if (v2[sz - 1] != v1[i]) {
+            v2.pb(v1[i]); sz++;
+        }
+
+    for (int i = 1; i <= N; i++)
+        col[i] = lower_bound(v2.begin(), v2.end(), T[i]) - v2.begin() + 1;
+}
+
+int main() {
+    int u, v, e, k, x, y;
+    scanf("%d%d%d",&N,&M,&Q);
+    for (int i = 1; i <= N; i++) {
+        scanf("%d",&T[i]);
+        G[0].pb(mp(i, -max_edge));
+        G[i].pb(mp(0, -max_edge));
+    }
+    for (int j = 0; j < M; j++) {
+        scanf("%d%d%d",&u,&v,&e);
+        G[u].pb(mp(v, -e));
+        G[v].pb(mp(u, -e));
+    }
+    
+    pq.push(mp(0, mp(0, -1)));
+    while (!pq.empty()) {
+        e = pq.top().ff;
+        x = pq.top().ss.ff;
+        y = pq.top().ss.ss;
+        pq.pop();
+        
+        if (!vis[x]) { 
+            vis[x] = true;
+            if (y != -1) E.pb(mp(-e, mp(x, y)));            
+            for (int i = 0; i < G[x].size(); i++)
+              if (!vis[G[x][i].ff]) pq.push(mp(G[x][i].ss, mp(G[x][i].ff, x)));
+        }
+    }
+    
+    sort(E.begin(), E.end());
+    for (int i = 0; i < 2 * N; i++)
+        p[i] = i;
+    
+    K = N;
+    for (int i = 0; i < E.size(); i++) {
+        K++;
+        int X = find_parent(E[i].ss.ff), Y = find_parent(E[i].ss.ss);        
+        p[X] = p[Y] = parent[X][0] = parent[Y][0] = K;        
+        dis[K] = E[i].ff == max_edge?-1:E[i].ff;
+        ll[K] = X;
+        rr[K] = Y;
+    }
+    
+    color_solve();    qq=1; dfs (K);
+    seg_tree.solve(); qq=1; dfs1(K);
+
+    set_lvl(K, 1);    
+    lvl[0] = parent[0][0] = 0;
+    build_lca();
+    
+    while (Q--) {
+        scanf("%d%d%d",&x,&y,&k);
+        if (weight[K] < k) {
+            printf("-1\n");
+            continue;
+        }
+        
+        x = LCA(x, y);        
+        if (weight[x] >= k) printf("%d\n",dis[x]);
+        else {        
+             for (int i = 19; i >= 0; i--) {
+             y = parent[x][i];
+              if (y && weight[y] < k) x = y;
+          }        
+          printf("%d\n",dis[parent[x][0]]);
+        }
+    }
+    
+    return 0;
+}
+
+
+```
+
+<h2>Kruskal (MST): Really Special Subtree</h2>
+<h3>Given an undirected weighted connected graph, find the Really Special SubTree in it. The Really Special SubTree is defined as a subgraph consisting of all the nodes in the graph and:
+
+There is only one exclusive path from a node to every other node.
+The subgraph is of minimum overall weight (sum of all edges) among all such subgraphs.
+No cycles are formed
+To create the Really Special SubTree, always pick the edge with smallest weight. Determine if including it will create a cycle. If so, ignore the edge. If there are edges of equal weight available:
+
+Choose the edge that minimizes the sum  where  and  are vertices and  is the edge weight.
+If there is still a collision, choose any of them.
+Print the overall weight of the tree formed using the rules.
+
+For example, given the following edges:
+
+u	v	wt
+1	2	2
+2	3	3
+3	1	5
+First choose  at weight . Next choose  at weight . All nodes are connected without cycles for a total weight of .
+
+Function Description
+
+Complete the  function in the editor below. It should return an integer that represents the total weight of the subtree formed.
+
+kruskals has the following parameters:
+
+g_nodes: an integer that represents the number of nodes in the tree
+g_from: an array of integers that represent beginning edge node numbers
+g_to: an array of integers that represent ending edge node numbers
+g_weight: an array of integers that represent the weights of each edge
+Input Format
+
+The first line has two space-separated integers  and , the number of nodes and edges in the graph.
+
+The next  lines each consist of three space-separated integers ,  and , where  and  denote the two nodes between which the undirected edge exists and  denotes the weight of that edge.
+
+Constraints
+
+**Note: ** If there are edges between the same pair of nodes with different weights, they are to be considered as is, like multiple edges.
+
+Output Format
+
+Print a single integer denoting the total weight of the Really Special SubTree.</h3>
+
+```c
+
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+typedef struct  {
+    int u, v, m, w;
+} Arco;
+
+int menorArco( Arco * arcos, int M ) {
+    int menor, i;
+    menor = -1;
+    for (i = 0; i < M; i++ ) {
+        if ( arcos[i].m == 0 ) {
+            if ( menor == -1 )
+                menor = i;
+            else
+                if ( arcos[i].w < arcos[menor].w  )
+                    menor = i;
+                else
+                    if ( arcos[i].w == arcos[menor].w ) 
+                        if ( arcos[i].u + arcos[i].w + arcos[i].v < 
+                             arcos[menor].u + arcos[menor].w + arcos[menor].v )
+                            menor = i;
+        }
+    }
+    return menor;
+}
+
+void unirComponentes( int * vertices, int N, int c1, int c2 ) {
+    int i;
+    for ( i = 0; i < N; i++ )
+        if ( vertices[i] == c2 )
+            vertices[i] = c1;
+}
+
+int main() {
+
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */    
+    int N, M, S, vs, vl, d;
+    int **graph;
+    Arco *arcos;
+    int *vertices;
+    
+    int i, j, k;
+    scanf("%d%d",&N, &M);
+    graph = (int **)malloc(N*sizeof(int *));
+    for ( i = 0; i < N; i++ )
+        graph[i] = (int *)malloc( N*sizeof(int) );    
+
+    for ( i = 0; i < N; i++ )
+        for ( j = 0; j < N; j++ )
+           graph[i][j] = -1;
+    
+    for ( i = 0; i < M; i++ ) {
+        scanf("%d%d%d", &vs, &vl, &d );
+        vs--;vl--;
+        if ( vl > vs ) {
+            int t = vs; vs = vl; vl = t;
+        }
+        if ( graph[vs][vl] == -1 || graph[vs][vl] > d )
+            graph[vs][vl] = d;
+        /*graph[vl][vs] = graph[vs][vl];*/
+    }
+
+    M = 0;
+    for ( i = 0; i < N; i++ )
+        for ( j = 0; j < N; j++ )
+           if ( graph[i][j] >= 0 )
+               M++;
+    
+    arcos = (Arco *)malloc( M*sizeof(Arco) );
+    for ( k = i = 0; i < N; i++ )
+        for ( j = 0; j < N; j++ )
+            if ( graph[i][j] >= 0 ) {
+                arcos[k].u = i;
+                arcos[k].v = j;
+                arcos[k].w = graph[i][j];
+                arcos[k].m = 0;
+                k++;
+            }
+
+    for ( i = 0; i < N; i++ )
+        free( graph[i] );
+    free( graph );
+    
+    vertices = (int *)malloc( N*sizeof(int) );
+    for ( i = 0; i < N; i++ )
+        vertices[i] = i;
+    
+    scanf("%d", &S); //ignored
+    S--;
+
+    int menor, u, v;
+    while ( (menor = menorArco(arcos,M)) >= 0 ) {
+        u = arcos[menor].u;
+        v = arcos[menor].v;
+        if ( vertices[u] != vertices[v] ) {
+            unirComponentes( vertices, N, vertices[u], vertices[v]);
+            arcos[menor].m = 1;
+        }
+        else
+            arcos[menor].m = -1;
+    }
+
+    long R;
+    R = 0;
+    for ( i = 0; i < M; i++ )
+        if ( arcos[i].m == 1 )
+            R = R + arcos[i].w;
+    
+    printf("%ld",R);
+
+   
+    return 0;
+}
+
+```
+
+<h2></h2>
+<h3></h3>
+
+```
+
+```
+
+
 <h2></h2>
 <h3></h3>
 
